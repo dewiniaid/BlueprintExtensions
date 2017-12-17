@@ -1,0 +1,11 @@
+{
+    "name": "BlueprintExtensions",
+    "version": "0.1.0",
+    "title": "Blueprint Extensions",
+    "author": "Dewin",
+    "contact": "https://github.com/dewiniaid/BlueprintExtensions",
+    "homepage": "https://github.com/dewiniaid/BlueprintExensions",
+    "factorio_version": "0.16",
+    "dependencies": ["base >= 0.16"],
+    "description": "Adds tools for updating and placing blueprints."
+}
