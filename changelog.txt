@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 17. 12. 2017
+  Bugfixes:
+    - Fixed crash when blueprint-updating an empty area.
+  Changes:
+    - Blueprints can now be "versioned": Updating a blueprint with a label like "Train Station v.1" will make the
+      updated blueprint default to "Train Station v.2".  By default, normal drag will update a version number if one is
+      present, shift-drag will append "v.2" if no version number is present.  These options can be changed in mod
+      settings.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 17. 12. 2017
   Changes:
