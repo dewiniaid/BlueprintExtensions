@@ -2,64 +2,76 @@
 data:extend({
     {
         type = "custom-input",
+        name = "BlueprintExtensions_flip-h",
+        key_sequence = "SHIFT + x",
+        order = 'a-a'
+    },
+    {
+        type = "custom-input",
+        name = "BlueprintExtensions_flip-v",
+        key_sequence = "SHIFT + v",
+        order = 'a-b'
+    },
+    {
+        type = "custom-input",
         name = "BlueprintExtensions_snap-n",
         key_sequence = "PAD 8",
-        order = 'a-a',
+        order = 'd-a',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-e",
         key_sequence = "PAD 6",
-        order = 'a-b',
+        order = 'd-b',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-s",
         key_sequence = "PAD 2",
-        order = 'a-c',
+        order = 'd-c',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-w",
         key_sequence = "PAD 4",
-        order = 'a-d',
+        order = 'd-d',
     },
 
-        {
+    {
         type = "custom-input",
         name = "BlueprintExtensions_snap-nw",
         key_sequence = "PAD 7",
-        order = 'b-a',
+        order = 'e-a',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-ne",
         key_sequence = "PAD 9",
-        order = 'b-b',
+        order = 'e-b',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-sw",
         key_sequence = "PAD 1",
-        order = 'b-c',
+        order = 'e-c',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-se",
         key_sequence = "PAD 3",
-        order = 'b-d',
+        order = 'e-d',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_snap-center",
         key_sequence = "PAD 5",
-        order = 'c-a',
+        order = 'f-a',
     },
     {
         type = "custom-input",
         name = "BlueprintExtensions_clone-blueprint",
         key_sequence = "SHIFT + U",
-        order = 'd-a',
+        order = 'g-a',
     },
 
     {
@@ -82,3 +94,4 @@ data:extend({
     },
 })
 
+require("style")

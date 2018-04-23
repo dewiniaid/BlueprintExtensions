@@ -36,6 +36,13 @@ data:extend{
         order = 201,
         default_value = false,
     },
+    {
+        type = "bool-setting",
+        name = "BlueprintExtensions_show-buttons",
+        setting_type = "runtime-per-user",
+        order = 300,
+        default_value = true,
+    },
 }
 
 
