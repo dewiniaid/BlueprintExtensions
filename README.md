@@ -35,6 +35,12 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+### 0.2.0 (2018-04-23)
+* Added and reworked the blueprint flipping and turning functionality in the Blueprint Flipper and Turner mod,
+including a fix to priority splitters.
+  * This functionality is disabled if Blueprint Flipper and Turner is enabled to avoid possible conflicts.
+  * The GUI buttons for flipping blueprints can be disabled in mod settings.  Note this has no effect if Blueprint Flipper and Turner is disabled.
+* Internal reworking of code to be better organized.
 
 ### 0.1.1 (2017-12-17)
  
