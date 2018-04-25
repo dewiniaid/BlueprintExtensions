@@ -1,4 +1,5 @@
 Flip = {
+    enabled = true,
     translations = {
         v = {
             axis = 'y',
@@ -34,11 +35,15 @@ Flip = {
                 [4] = 1,
             },
         }
+    },
+    sides = {
+        left = 'right',
+        right = 'left'
     }
 }
 
 function Flip.setup_gui(player)
-    local show = (not game.active_mods["Blueprint_Flip_Turn"]) and player.mod_settings["BlueprintExtensions_show-buttons"].value
+    local show = (Flip.enabled and player.mod_settings["BlueprintExtensions_show-buttons"].value)
     local top = player.gui.top
 
 	if show and not top["BPEX_Flow"] then
@@ -52,9 +57,15 @@ end
 
 
 function Flip.check_for_other_mods()
+--    if game.active_mods["PickerExtended"] then
+--        game.print("[Blueprint Extensions] Picker Extended is installed.  Disabling our version of blueprint flipping.")
+--        Flip.enabled = false
     if game.active_mods["Blueprint_Flip_Turn"] then
         game.print("[Blueprint Extensions] Blueprint Flipper and Turner is installed.  Disabling our version of blueprint flipping.")
         game.print("Blueprint Extensions now includes some improved functionality when flipping blueprints, such as correctly flipping splitter priorities.  To enable this functionality, disable Blueprint Flipper and Turner.")
+        Flip.enabled = false
+    else
+        Flip.enabled = true
     end
 end
 
@@ -106,6 +117,14 @@ function Flip.flip(player_index, translate)
             if ent.pickup_position ~= nil then
                 ent.pickup_position[axis] = -ent.pickup_position[axis]
             end
+
+            if Flip.sides[ent.input_priority] then
+                ent.input_priority = Flip.sides[ent.input_priority]
+            end
+            if Flip.sides[ent.output_priority] then
+                ent.output_priority = Flip.sides[ent.output_priority]
+            end
+
         end
         bp.set_blueprint_entities(ents)
     end
@@ -126,6 +145,8 @@ end
 
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
+    Flip.check_for_other_mods()
+
     if game.active_mods["Blueprint_Flip_Turn"] then return end
 
     if event.setting_type == "runtime-per-user" and event.setting == "BlueprintExtensions_show-buttons" then
