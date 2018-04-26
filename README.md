@@ -36,8 +36,7 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 ### 0.2.1 (2018-04-24)
-* Actually correctly flip splitters like we said we do.  Somehow in optimizing the original code I completely forgot
-  to actually implement this.
+* Actually correctly flip splitters like we said we do.  Somehow in optimizing the original code I completely forgot to actually implement this.
 
 ### 0.2.0 (2018-04-23)
 * Added and reworked the blueprint flipping and turning functionality in the Blueprint Flipper and Turner mod,

@@ -34,10 +34,11 @@ function Updater.clone(player_index)
 end
 
 
-function Updater.on_selected_area(event, alt)
+function Updater.on_selected_area(event)
     if event.item ~= CLONED_BLUEPRINT then
         return
     end
+    local alt = (event.name == defines.events.on_player_alt_selected_area)
 
     local player_index = event.player_index
     local area = event.area
@@ -82,13 +83,60 @@ function Updater.on_selected_area(event, alt)
         cursor.label = label
     end
 
+    -- Remember the item number for this blueprint.
+    pdata.item_number = cursor.item_number
     player.opened = cursor
+    -- player.clean_cursor()
 end
 
+
+function Updater.on_gui_opened(event)
+    -- If opening an item, this means our target blueprint was closed at some point and that any
+    -- on_player_configured_blueprint events we see are nonsense.
+    if event.gui_type ~= defines.gui_type.item then
+        return
+    end
+    local pdata = playerdata[event.player_index]
+    if event.item and event.item.item_number == pdata.item_number then
+        return
+    end
+
+    if pdata and pdata.item_number then
+        pdata.item_number = nil
+    end
+end
+
+
+function Updater.on_player_configured_blueprint(event)
+    local pdata = playerdata[event.player_index]
+    local player = game.players[event.player_index]
+    if not (pdata and pdata.item_number) then
+        return
+    end
+    local num = pdata.item_number
+    pdata.item_number = nil
+
+    -- Try to find blueprint in the player's inventory so we can pick it up again, like normal BPs work.
+    -- Quick cursor_stack check first since it's painless
+    if player.cursor_stack.valid_for_read and player.cursor_stack.item_number == num then
+        return  -- Already holding it.
+    end
+
+    local item
+    for _,inv in pairs({player.get_inventory(defines.inventory.player_main), player.get_quickbar()}) do
+        for i=1,#inv do
+            item = inv[i]
+            if item.valid_for_read and item.item_number == num and item.name == pdata.name then
+                player.clean_cursor()
+                player.cursor_stack.swap_stack(item)
+                return
+            end
+        end
+    end
+end
+
+
 script.on_event("BlueprintExtensions_clone-blueprint", function(event) return Updater.clone(event.player_index) end)
-script.on_event(defines.events.on_player_selected_area, function(event)
-    return Updater.on_selected_area(event, false)
-end)
-script.on_event(defines.events.on_player_alt_selected_area, function(event)
-    return Updater.on_selected_area(event, true)
-end)
+script.on_event({defines.events.on_player_selected_area, defines.events.on_player_alt_selected_area}, Updater.on_selected_area)
+--script.on_event(defines.events.on_gui_opened, Updater.on_gui_opened)
+--script.on_event(defines.events.on_player_configured_blueprint, Updater.on_player_configured_blueprint)

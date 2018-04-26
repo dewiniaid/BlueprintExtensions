@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.2
+Date: 23. 04. 2018
+  Changes:
+    - When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
+      This allows you to change blueprint icons without them all becoming icons of blueprints.
+      When you finish configuring the blueprint, the blueprint will be moved back to the cursor.
+
+      This more closely reflects vanilla blueprint behavior.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.1
 Date: 23. 04. 2018
   Bugfixes:
