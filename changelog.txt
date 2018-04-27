@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.2
-Date: 23. 04. 2018
+Date: 26. 04. 2018
   Changes:
     - When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
       This allows you to change blueprint icons without them all becoming icons of blueprints.
@@ -10,7 +10,7 @@ Date: 23. 04. 2018
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.1
-Date: 23. 04. 2018
+Date: 24. 04. 2018
   Bugfixes:
     - Actually flip splitter priorities upon mirroring like we said we would.
 

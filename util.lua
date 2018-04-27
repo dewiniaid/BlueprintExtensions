@@ -1,9 +1,9 @@
 -- Library functions and defines
 
-CONST_EMPTY_TABLE = {}
+local Util = {}
 
 -- Returns the item if it is a blueprint, the selected blueprint in the book if it is a blueprint book, or nil.
-function get_blueprint(bp)
+function Util.get_blueprint(bp)
     if not (bp.valid and bp.valid_for_read) then
         return nil
     end
@@ -17,7 +17,7 @@ function get_blueprint(bp)
 end
 
 -- Create or return a dummy storage surface
-function get_dummy_surface()
+function Util.get_dummy_surface()
     if game.surfaces.surface_of_holding then
         return game.surfaces.surface_of_holding
     end
@@ -34,25 +34,22 @@ function get_dummy_surface()
 end
 
 -- Store an item stack in the Surface of Holding(tm)
-function store_item(player_index, key, item)
-    local pdata = get_pdata(player_index)
-    if not pdata then
-        pdata = {}
-        playerdata[player_index] = pdata
-    elseif not pdata.stored_items then
+function Util.store_item(player_index, key, item)
+    local pdata = Util.get_pdata(player_index)
+    if not pdata.stored_items then
         pdata.stored_items = {}
     end
 
     if not (pdata.stored_items[key] and pdata.stored_items[key].valid) then
-        pdata.stored_items[key] = get_dummy_surface().create_entity{name='item-on-ground', position={x=0,y=0}, force=force, stack={name='blueprint'}}
+        pdata.stored_items[key] = Util.get_dummy_surface().create_entity{name='item-on-ground', position={x=0,y=0}, stack={name='blueprint'}}
     end
     pdata.stored_items[key].stack.set_stack(item)
     return pdata.stored_items[key].stack
 end
 
 -- Clear an item stack in the Surface of Holding(tm)
-function clear_item(player_index, key)
-    local pdata = playerdata[player_index]
+function Util.clear_item(player_index, key)
+    local pdata = global.playerdata[player_index]
     if not pdata or not pdata.stored_items or not pdata.stored_items[key] then
         return
     end
@@ -63,8 +60,8 @@ function clear_item(player_index, key)
 end
 
 -- Clear ALL item stacks in the Surface of Holding
-function clear_all_items(player_index)
-    local pdata = playerdata[player_index]
+function Util.clear_all_items(player_index)
+    local pdata = global.playerdata[player_index]
     if not pdata or not pdata.stored_items then
         return
     end
@@ -77,8 +74,8 @@ function clear_all_items(player_index)
 end
 
 -- Fetch an item stack in the Surface of Holding(tm)
-function fetch_item(player_index, key)
-    local pdata = playerdata[player_index]
+function Util.fetch_item(player_index, key)
+    local pdata = global.playerdata[player_index]
     if not pdata or not pdata.stored_items or not pdata.stored_items[key] then
         return nil
     end
@@ -90,13 +87,14 @@ function fetch_item(player_index, key)
 end
 
 -- Get or initialize player data.
-function get_pdata(player_index)
-    local pdata = playerdata[player_index]
+function Util.get_pdata(player_index)
+    local pdata = global.playerdata[player_index]
     if not pdata then
         pdata = {}
-        playerdata[player_index] = pdata
+        if global.playerdata[player_index] = pdata
     end
     return pdata
 end
 
 
+return Util

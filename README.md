@@ -35,6 +35,13 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+### 0.2.2 (2018-04-26)
+
+* When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
+  * This allows you to change blueprint icons without them all becoming icons of blueprints.
+  * When you finish configuring the blueprint, the blueprint will be moved back to the cursor.
+  * This more closely reflects vanilla blueprint behavior.
+
 ### 0.2.1 (2018-04-24)
 * Actually correctly flip splitters like we said we do.  Somehow in optimizing the original code I completely forgot to actually implement this.
 

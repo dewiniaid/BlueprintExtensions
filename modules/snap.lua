@@ -1,8 +1,8 @@
-require("util")
+local Util = require("util")
 local min, max = math.min, math.max
 
 
-Snap = {
+local Snap = {
     EVENTS = {
         ["BlueprintExtensions_snap-n"] = {nil, 1},
         ["BlueprintExtensions_snap-s"] = {nil, 0},
@@ -36,7 +36,7 @@ function Snap.on_event(event)
     if not (player and player.valid) then
         return nil
     end
-    local bp = get_blueprint(player.cursor_stack)
+    local bp = Util.get_blueprint(player.cursor_stack)
     if not bp then
         return nil
     end
@@ -58,10 +58,22 @@ function Snap.on_event(event)
     return Snap.align_blueprint(bp, xdir, ydir)
 end
 
-for k,_ in pairs(Snap.EVENTS) do
-    script.on_event(k, Snap.on_event)
-end
 
+local function update_bounds(bound, point, min_edge, max_edge)
+    min_edge = point + min_edge
+    max_edge = point + max_edge
+    if bound.min == nil then
+        bound.min = point
+        bound.max = point
+        bound.min_edge = min_edge
+        bound.max_edge = max_edge
+        return
+    end
+    bound.min = min(bound.min, point)
+    bound.max = max(bound.max, point)
+    bound.min_edge = min(bound.min_edge, min_edge)
+    bound.max_edge = max(bound.max_edge, max_edge)
+end
 
 
 function Snap.blueprint_bounds(bp)
@@ -73,26 +85,10 @@ function Snap.blueprint_bounds(bp)
     }
     local align = 1
 
-    local function update_bounds(bound, point, min_edge, max_edge)
-        min_edge = point + min_edge
-        max_edge = point + max_edge
-        if bound.min == nil then
-            bound.min = point
-            bound.max = point
-            bound.min_edge = min_edge
-            bound.max_edge = max_edge
-            return
-        end
-        bound.min = min(bound.min, point)
-        bound.max = max(bound.max, point)
-        bound.min_edge = min(bound.min_edge, min_edge)
-        bound.max_edge = max(bound.max_edge, max_edge)
-    end
-
     local rect = {}  -- Reduce GC churn by declaring this here and updating it in the loop rather than reinitializing
     -- every pass
 
-    for _, entity in pairs(bp.get_blueprint_entities() or CONST_EMPTY_TABLE) do
+    for _, entity in pairs(bp.get_blueprint_entities() or {}) do
         local rot = Snap.ROTATIONS[entity.direction or 0]
         local box = prototypes[entity.name].selection_box
         rect[1] = box.left_top.x
@@ -117,7 +113,7 @@ function Snap.blueprint_bounds(bp)
         align = max(align, Snap.ALIGNMENT_OVERRIDES[entity.name] or align)
     end
 
-    for _, tile in pairs(bp.get_blueprint_tiles() or CONST_EMPTY_TABLE) do
+    for _, tile in pairs(bp.get_blueprint_tiles() or {}) do
         update_bounds(bounds.x, tile.position.x, -0.5, 0.5)
         update_bounds(bounds.y, tile.position.y, -0.5, 0.5)
     end
@@ -126,30 +122,44 @@ function Snap.blueprint_bounds(bp)
     return bounds, align
 end
 
-function Snap.offset_blueprint(bp, xoff, yoff)
-    local function offset(t)
-        for _, v in pairs(t) do
-            if not v.position then
-                return nil
-            end
 
-            v.position.x = v.position.x + xoff
-            v.position.y = v.position.y + yoff
-
+local function offset(t, xoff, yoff)
+    for _, v in pairs(t) do
+        if not v.position then
+            return nil
         end
-        return t
-    end
 
+        v.position.x = v.position.x + xoff
+        v.position.y = v.position.y + yoff
+
+    end
+    return t
+end
+
+
+function Snap.offset_blueprint(bp, xoff, yoff)
     local entities = bp.get_blueprint_entities()
     local tiles = bp.get_blueprint_tiles()
 
     if entities then
-        bp.set_blueprint_entities(offset(entities))
+        bp.set_blueprint_entities(offset(entities, xoff, yoff))
     end
     if tiles then
-        bp.set_blueprint_tiles(offset(tiles))
+        bp.set_blueprint_tiles(offset(tiles, xoff, yoff))
     end
 end
+
+
+local function calculate_offset(dir, bound, align)
+    local o = (dir ~= nil and math.floor(((-bound.min_edge - (dir * (bound.max_edge-bound.min_edge)))/ align)) * align) or 0
+    if dir == 1 then
+        -- The math works out to offset by the total width/height if we're aligning to max, but we want the max to
+        -- end up under the cursor.
+        return o+align
+    end
+    return o
+end
+
 
 function Snap.align_blueprint(bp, xdir, ydir)
     local bounds, align = Snap.blueprint_bounds(bp)
@@ -157,20 +167,19 @@ function Snap.align_blueprint(bp, xdir, ydir)
 --    game.print("bounds.y=" .. serpent.line(bounds.y))
 --    game.print("align=" .. align)
 
-    local function calculate_offset(dir, bound)
-        local o = (dir ~= nil and math.floor(((-bound.min_edge - (dir * (bound.max_edge-bound.min_edge)))/ align)) * align) or 0
-        if dir == 1 then
-            -- The math works out to offset by the total width/height if we're aligning to max, but we want the max to
-            -- end up under the cursor.
-            return o+align
-        end
-        return o
-    end
 
-    local xoff = calculate_offset(xdir, bounds.x)
-    local yoff = calculate_offset(ydir, bounds.y)
+    local xoff = calculate_offset(xdir, bounds.x, align)
+    local yoff = calculate_offset(ydir, bounds.y, align)
 
 --    game.print("xoff=" .. xoff .. ", yoff=" .. yoff)
 
     return Snap.offset_blueprint(bp, xoff, yoff)
 end
+
+
+for k,_ in pairs(Snap.EVENTS) do
+    script.on_event(k, Snap.on_event)
+end
+
+
+return Snap

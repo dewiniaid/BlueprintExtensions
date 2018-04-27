@@ -1,4 +1,6 @@
-Flip = {
+local Util = require('Util')
+
+local Flip = {
     enabled = true,
     translations = {
         v = {
@@ -75,7 +77,7 @@ function Flip.flip(player_index, translate)
     if game.active_mods["Blueprint_Flip_Turn"] then return end
 
     local player = game.players[player_index]
-    local bp = get_blueprint(player.cursor_stack)
+    local bp = Util.get_blueprint(player.cursor_stack)
     if not (bp and bp.is_blueprint_setup()) then
         return
     end
@@ -131,7 +133,6 @@ function Flip.flip(player_index, translate)
 
     ents = bp.get_blueprint_tiles()
     if ents then
-        ents = bp.get_blueprint_tiles()
         for _,ent in pairs(ents) do
             ent.direction = (
                 translate.default_offset
@@ -154,6 +155,7 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
     end
 end
 )
+
 script.on_event("BlueprintExtensions_flip-h", function(event) return Flip.flip(event.player_index, Flip.translations.h) end)
 script.on_event("BlueprintExtensions_flip-v", function(event) return Flip.flip(event.player_index, Flip.translations.v) end)
 script.on_event(defines.events.on_gui_click, function(event)
@@ -165,3 +167,4 @@ script.on_event(defines.events.on_gui_click, function(event)
 end)
 
 
+return Flip
