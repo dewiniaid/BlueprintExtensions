@@ -81,7 +81,7 @@ data:extend({
         icon_size = 32,
         flags = { "goes-to-quickbar" },
         subgroup = "tool",
-        order = "c[automated-construction]-a[blueprint]",
+        order = "c[automated-construction]-a[blueprint]-no-picker",
         stack_size = 1,
         stackable = false,
         selection_color = { r = 0, g = 1, b = 0 },
