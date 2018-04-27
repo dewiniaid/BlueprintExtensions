@@ -5,7 +5,11 @@ local CLONED_BLUEPRINT = "BlueprintExtensions_cloned-blueprint"
 local VERSION_PATTERN = "(v[.]?)(%d)$";  -- Matches version number at end of blueprints.
 local DEFAULT_VERSION = " v.2"
 
-Updater = {}
+local AWAITING_GUI = 1
+local AWAITING_BP = 2
+
+Updater = {
+}
 
 
 function Updater.clone(player_index)
@@ -17,19 +21,20 @@ function Updater.clone(player_index)
     if not bp then
         return nil
     end
-    local pdata = {
+    local updater = {
         name = bp.name,
         label = bp.label,
         icons = bp.blueprint_icons,
+        status = nil,
     }
-
     -- Create replacer tool
-    if player.clean_cursor() then
-        player.cursor_stack.set_stack(CLONED_BLUEPRINT)
-        if pdata.label then
-            player.cursor_stack.label = pdata.label
-        end
-        playerdata[player_index] = pdata
+    if not player.clean_cursor() then
+        return
+    end
+    get_pdata(player_index).updater = updater
+    player.cursor_stack.set_stack(CLONED_BLUEPRINT)
+    if updater.label then
+        player.cursor_stack.label = updater.label
     end
 end
 
@@ -52,11 +57,12 @@ function Updater.on_selected_area(event)
     if not (cursor.valid and cursor.valid_for_read and cursor.name == CLONED_BLUEPRINT) then
         return nil
     end
-    local pdata = playerdata[player_index]
-    if not pdata then
+    local pdata = get_pdata(player_index)
+    local updater = pdata.updater
+    if not updater then
         return nil
     end
-    cursor.set_stack(pdata.name)
+    cursor.set_stack(updater.name)
     cursor.create_blueprint{
         surface=player.surface,
         force=player.force,
@@ -67,9 +73,9 @@ function Updater.on_selected_area(event)
         cursor.set_stack(CLONED_BLUEPRINT)
         return
     end
-    cursor.blueprint_icons = pdata.icons
-    if pdata.label then
-        local label = pdata.label
+    cursor.blueprint_icons = updater.icons
+    if updater.label then
+        local label = updater.label
         local found
         local versioning = player.mod_settings[
             alt and "BlueprintExtensions_alt-version-increment" or "BlueprintExtensions_version-increment"
@@ -83,10 +89,11 @@ function Updater.on_selected_area(event)
         cursor.label = label
     end
 
-    -- Remember the item number for this blueprint.
-    pdata.item_number = cursor.item_number
-    player.opened = cursor
-    -- player.clean_cursor()
+    -- Move this blueprint to a temporary item
+    local stack = store_item(player_index, 'updater-blueprint', player.cursor_stack)
+    player.cursor_stack.clear()
+    updater.status = AWAITING_GUI
+    player.opened = stack
 end
 
 
@@ -96,47 +103,36 @@ function Updater.on_gui_opened(event)
     if event.gui_type ~= defines.gui_type.item then
         return
     end
-    local pdata = playerdata[event.player_index]
-    if event.item and event.item.item_number == pdata.item_number then
+    local pdata = get_pdata(event.player_index)
+    if not pdata.updater then
         return
     end
 
-    if pdata and pdata.item_number then
-        pdata.item_number = nil
+    if pdata.updater.status == AWAITING_GUI then
+        pdata.updater.status = AWAITING_BP
+    else
+        pdata.updater = nil
     end
 end
 
 
 function Updater.on_player_configured_blueprint(event)
-    local pdata = playerdata[event.player_index]
-    local player = game.players[event.player_index]
-    if not (pdata and pdata.item_number) then
+    local pdata = get_pdata(event.player_index)
+--    game.print(serpent.block(pdata.updater))
+    if not pdata.updater or pdata.updater.status ~= AWAITING_BP then
         return
     end
-    local num = pdata.item_number
-    pdata.item_number = nil
-
-    -- Try to find blueprint in the player's inventory so we can pick it up again, like normal BPs work.
-    -- Quick cursor_stack check first since it's painless
-    if player.cursor_stack.valid_for_read and player.cursor_stack.item_number == num then
-        return  -- Already holding it.
-    end
-
-    local item
-    for _,inv in pairs({player.get_inventory(defines.inventory.player_main), player.get_quickbar()}) do
-        for i=1,#inv do
-            item = inv[i]
-            if item.valid_for_read and item.item_number == num and item.name == pdata.name then
-                player.clean_cursor()
-                player.cursor_stack.swap_stack(item)
-                return
-            end
-        end
+    pdata.updater = nil  -- Nuke this.
+    local player = game.players[event.player_index]
+    if not player.clean_cursor() then
+        game.print("[Blueprint Extensions] Could not free up a slot for this blueprint")
+    else
+        player.cursor_stack.set_stack(fetch_item(event.player_index, 'updater-blueprint'))
     end
 end
 
 
 script.on_event("BlueprintExtensions_clone-blueprint", function(event) return Updater.clone(event.player_index) end)
 script.on_event({defines.events.on_player_selected_area, defines.events.on_player_alt_selected_area}, Updater.on_selected_area)
---script.on_event(defines.events.on_gui_opened, Updater.on_gui_opened)
---script.on_event(defines.events.on_player_configured_blueprint, Updater.on_player_configured_blueprint)
+script.on_event(defines.events.on_gui_opened, Updater.on_gui_opened)
+script.on_event(defines.events.on_player_configured_blueprint, Updater.on_player_configured_blueprint)
