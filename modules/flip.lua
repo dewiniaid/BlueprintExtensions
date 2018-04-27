@@ -49,7 +49,7 @@ function Flip.setup_gui(player)
     local top = player.gui.top
 
 	if show and not top["BPEX_Flow"] then
-		local flow = top.add{type = "flow", name = "BPEX_Flow", direction = horizontal}
+		local flow = top.add{type = "flow", name = "BPEX_Flow", direction = 'horizontal'}
 		flow.add{type = "button", name = "BPEX_Flip_H", style = "BPEX_Button_H"}
 		flow.add{type = "button", name = "BPEX_Flip_V", style = "BPEX_Button_V"}
     elseif not show and top["BPEX_Flow"] then
