@@ -24,5 +24,7 @@ script.on_init(init_globals)
 script.on_configuration_changed(init_globals)
 script.on_load(function() playerdata = global.playerdata end)
 script.on_event(defines.events.on_player_removed, function(event)
+    clear_all_items(event.player_index)
     playerdata[event.player_index] = nil
 end)
+
