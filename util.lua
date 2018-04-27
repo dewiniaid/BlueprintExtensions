@@ -91,7 +91,7 @@ function Util.get_pdata(player_index)
     local pdata = global.playerdata[player_index]
     if not pdata then
         pdata = {}
-        if global.playerdata[player_index] = pdata
+        global.playerdata[player_index] = pdata
     end
     return pdata
 end
