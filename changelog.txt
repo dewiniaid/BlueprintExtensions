@@ -1,6 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.2
-Date: 26. 04. 2018
+Date: 14. 10. 2018
+  Additions:
+    - You can now swap wire colors of a blueprint with SHIFT + W
+    - You can now rotate a blueprint with CONTROL + ALT + R.  Unlike normal rotation, this modifies the actual
+      blueprint and can be useful if you want to have all the blueprints in a book rotated the same direction.
   Changes:
     - When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
       This allows you to change blueprint icons without them all becoming icons of blueprints.
