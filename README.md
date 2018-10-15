@@ -42,10 +42,17 @@ discussion page, and messages posted there will likely be ignored.**
 ## Changelog
 ### 0.2.2 (2018-10-14)
 
-  * When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
-  * This allows you to change blueprint icons without them all becoming icons of blueprints.
-  * When you finish configuring the blueprint, the blueprint will be moved back to the cursor.
-  * This more closely reflects vanilla blueprint behavior.
+* When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
+
+  This allows you to change blueprint icons without them all becoming icons of blueprints.
+  When you finish configuring the blueprint, the blueprint will be moved back to the cursor.
+ 
+  This more closely reflects vanilla blueprint behavior.
+
+* You can now swap wire colors of a blueprint with `SHIFT + W`
+
+* You can now rotate a blueprint with `CONTROL + ALT + R`.  Unlike normal rotation, this modifies the actual
+  blueprint and can be useful if you want to have all the blueprints in a book rotated the same direction. 
 
 ### 0.2.1 (2018-04-24)
 * Actually correctly flip splitters like we said we do.  Somehow in optimizing the original code I completely forgot to actually implement this.
