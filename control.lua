@@ -2,6 +2,8 @@ local Util = require('util')
 require('modules/snap')
 require('modules/updater')
 local Flip = require('modules/flip')
+require('modules/wireswap')
+require('modules/rotate')
 
 -- local CONST_EMPTY_TABLE = {}  -- No GC churn
 

@@ -2,7 +2,7 @@
 local Util = require("util")
 
 local CLONED_BLUEPRINT = "BlueprintExtensions_cloned-blueprint"
-local VERSION_PATTERN = "(v[.]?)(%d)$";  -- Matches version number at end of blueprints.
+local VERSION_PATTERN = "(v[.]?)(%d)$"  -- Matches version number at end of blueprints.
 local DEFAULT_VERSION = " v.2"
 
 local AWAITING_GUI = 1

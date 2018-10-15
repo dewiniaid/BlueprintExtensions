@@ -12,8 +12,15 @@ incremented (this behavior can be changed in settings).
   against some existing structure -- i.e. for tiling solar layouts.
   
 * Blueprint Mirror: Mirror a blueprint horizontally or vertically, correctly fixing most entities can be fixed.
+
+* Wireswap: Swap circuit wire colors within a blueprint.
+
+* Rotate: Rotates a blueprint.  This modifies the actual blueprint rather than its in-game placement direction.
+  This is useful if you have a book of related blueprints and want them all facing the same direction.
+
+**Note: All of these features (except the Blueprint Updater) will modify the blueprint being affected.**
+  Copies of blueprints that are in your blueprint library (or the game's blueprint library) are unaffected.
  
-   
 ## Known Issues
 * Blueprint Updaters are tied to the last blueprint you had selected when you created one -- not the blueprint you had
 when that specific updater was created.  There currently does not exist a way to associate data with a specific 
@@ -33,9 +40,9 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
-### 0.2.2 (2018-04-26)
+### 0.2.2 (2018-10-14)
 
-* When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
+  * When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
   * This allows you to change blueprint icons without them all becoming icons of blueprints.
   * When you finish configuring the blueprint, the blueprint will be moved back to the cursor.
   * This more closely reflects vanilla blueprint behavior.
