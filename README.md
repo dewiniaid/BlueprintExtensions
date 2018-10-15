@@ -11,10 +11,8 @@ incremented (this behavior can be changed in settings).
   corner or edge.  This is useful if you can't fit a large blueprint entirely on screen and need to make it align 
   against some existing structure -- i.e. for tiling solar layouts.
   
-The following would duplicate widely available functionality in other mods and thus is not currently included:
+* Blueprint Mirror: Mirror a blueprint horizontally or vertically, correctly fixing most entities can be fixed.
  
- * Blueprint Mirror: Try [Blueprint Flipper and Turner](https://mods.factorio.com/mods/Marthen/Blueprint_Flip_Turn]) or
-[Picker Extended](https://mods.factorio.com/mods/Nexela/PickerExtended).
    
 ## Known Issues
 * Blueprint Updaters are tied to the last blueprint you had selected when you created one -- not the blueprint you had
