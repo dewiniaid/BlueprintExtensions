@@ -1,4 +1,4 @@
-local Util = require('util')
+local Util = require('Util')
 require('modules/snap')
 require('modules/updater')
 local Flip = require('modules/flip')

@@ -40,6 +40,10 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+### 0.2.4 (2018-10-16)
+* Fixed dates in changelog.txt entries
+* Fixed inconsistent case on Util.lua
+
 ### 0.2.3 (2018-10-16)
 * Change the default wireswap keybind to `CONTROL + ALT + W`.  The previous `SHIFT + W` would inadvertently trigger and
   interfere with movement.
