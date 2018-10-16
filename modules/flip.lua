@@ -1,4 +1,4 @@
-local Util = require('Util')
+local Util = require('util')
 
 local Flip = {
     enabled = true,

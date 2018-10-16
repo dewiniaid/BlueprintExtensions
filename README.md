@@ -40,6 +40,12 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+
+### 0.2.4 (2018-10-16)
+
+* Fix crash on case-sensitive filesystems (i.e. not Windows).  Thanks to Omnifarious for the report.
+* Fix a incorrect date in changelog.txt.
+
 ### 0.2.3 (2018-10-16)
 * Change the default wireswap keybind to `CONTROL + ALT + W`.  The previous `SHIFT + W` would inadvertently trigger and
   interfere with movement.
