@@ -76,7 +76,7 @@ data:extend({
     {
         type = "custom-input",
         name = "BlueprintExtensions_wireswap",
-        key_sequence = "SHIFT + W",
+        key_sequence = "CONTROL + ALT + W",
         order = 'h-a',
     },
     {

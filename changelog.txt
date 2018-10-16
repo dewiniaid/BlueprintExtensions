@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.3
+Date: 14. 16. 2018
+  Bugfixes:
+    - Changed the default wireswap keybind to CTRL + ALT + W instead of SHIFT + W, as the latter would frequently
+      interfere with movement.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.2
 Date: 14. 10. 2018
   Additions:

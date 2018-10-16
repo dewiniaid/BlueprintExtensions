@@ -40,6 +40,10 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+### 0.2.3 (2018-10-16)
+* Change the default wireswap keybind to `CONTROL + ALT + W`.  The previous `SHIFT + W` would inadvertently trigger and
+  interfere with movement.
+
 ### 0.2.2 (2018-10-14)
 
 * When updating a blueprint, the blueprint is now cleared from the cursor (if there's room) while configuring it.
