@@ -11,7 +11,9 @@ incremented (this behavior can be changed in settings).
   corner or edge.  This is useful if you can't fit a large blueprint entirely on screen and need to make it align 
   against some existing structure -- i.e. for tiling solar layouts.
   
-* Blueprint Mirror: Mirror a blueprint horizontally or vertically, correctly fixing most entities can be fixed.
+* Blueprint Mirror: Mirror a blueprint horizontally or vertically.  This correctly fixes splitter orientation, 
+  and if [GDIW](https://mods.factorio.com/mod/GDIW) is installed it will also switch fluid recipes to their mirrored
+  versions.
 
 * Wireswap: Swap circuit wire colors within a blueprint.
 
@@ -26,7 +28,7 @@ incremented (this behavior can be changed in settings).
 when that specific updater was created.  There currently does not exist a way to associate data with a specific 
 updater and still have it function as a selection tool.
   
-* Blueprint Snap is unable to factor in the rotation setting due to 
+* Blueprint Snap is unable to factor in the rotation setting due to
 [modding API limitations](https://forums.factorio.com/viewtopic.php?f=28&t=47087&start=80#p324060).  Thus, snapping
 to the north edge of a blueprint will snap to the north edge of the blueprint in its native rotation -- not the 
 current on-screen one.  The functionality is still fully useable, it just may require a bit of "Which key do I
@@ -40,6 +42,9 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+
+### 0.2.5 (2018-10-18)
+* If [GDIW](https://mods.factorio.com/mod/GDIW) is installed, mirror recipes when mirroring blueprints.
 
 ### 0.2.4 (2018-10-16)
 

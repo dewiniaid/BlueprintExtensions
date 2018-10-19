@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.5
+Date: 18. 10. 2018
+  Changes:
+    - Mirroring blueprints will now mirror fluid recipes if GDIW (Gah! DarnItWater!) is installed.
+      This means mirroring a refinery blueprint will not break fluid inputs if using that mod.
+      This can be disabled on a per-player basis in mod settings.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.4
 Date: 16. 10. 2018
   Bugfixes:

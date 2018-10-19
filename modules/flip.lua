@@ -41,7 +41,7 @@ local Flip = {
     sides = {
         left = 'right',
         right = 'left'
-    }
+    },
 }
 
 function Flip.setup_gui(player)
@@ -64,13 +64,27 @@ function Flip.check_for_other_mods()
 --        Flip.enabled = false
     if game.active_mods["Blueprint_Flip_Turn"] then
         game.print("[Blueprint Extensions] Blueprint Flipper and Turner is installed.  Disabling our version of blueprint flipping.")
-        game.print("Blueprint Extensions now includes some improved functionality when flipping blueprints, such as correctly flipping splitter priorities.  To enable this functionality, disable Blueprint Flipper and Turner.")
+        if game.active_mods["GDIW"] then
+            game.print("Blueprint Extensions includes some improved functionality when flipping blueprints, such as correctly flipping splitter priorities and taking advantage of GDIW recipes.  To enable this functionality, disable Blueprint Flipper and Turner.")
+        else
+            game.print("Blueprint Extensions includes some improved functionality when flipping blueprints, such as correctly flipping splitter priorities.  To enable this functionality, disable Blueprint Flipper and Turner.")
+        end
         Flip.enabled = false
     else
         Flip.enabled = true
     end
 end
 
+--[[ GDIW reversals:
+Unmodified: BR or IR or OR
+IR: OR or none
+OR: IR or none
+BR: unmodified
+ ]]
+
+local function _gdiw_recipe(recipe)
+    return (game.recipe_prototypes[recipe]) and recipe or nil
+end
 
 
 function Flip.flip(player_index, translate)
@@ -85,6 +99,7 @@ function Flip.flip(player_index, translate)
     local proto, name, dir
     local axis = translate.axis
     local ents
+    local support_gdiw = player.mod_settings["BlueprintExtensions_support-gdiw"].value
 
     ents = bp.get_blueprint_entities()
     if ents then
@@ -127,6 +142,26 @@ function Flip.flip(player_index, translate)
                 ent.output_priority = Flip.sides[ent.output_priority]
             end
 
+            -- Support GDIW
+            if support_gdiw and ent.recipe then
+                local t
+                local _, _, recipe, mod = string.find(ent.recipe, "^(.*)%-GDIW%-([BIO])R$")
+                if mod == 'B' then      -- Both mirrored
+                    ent.recipe = recipe
+                elseif mod == 'I' then  -- Input mirrored
+                    ent.recipe = _gdiw_recipe(recipe .. '-GDIW-OR') or recipe
+                elseif mod == 'O' then  -- Output mirrored
+                    ent.recipe = _gdiw_recipe(recipe .. '-GDIW-IR') or recipe
+                else  -- Neither mirrored
+                    recipe = ent.recipe
+                    ent.recipe = (
+                           _gdiw_recipe(recipe .. '-GDIW-BR')
+                        or _gdiw_recipe(recipe .. '-GDIW-IR')
+                        or _gdiw_recipe(recipe .. '-GDIW-OR')
+                        or recipe
+                    )
+                end
+            end
         end
         bp.set_blueprint_entities(ents)
     end

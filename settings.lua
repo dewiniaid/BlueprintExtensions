@@ -43,6 +43,14 @@ data:extend{
         order = 300,
         default_value = true,
     },
+    {
+        type = "bool-setting",
+        name = "BlueprintExtensions_support-gdiw",
+        setting_type = "runtime-per-user",
+        order = 301,
+        default_value = true,
+    },
+
 }
 
 
