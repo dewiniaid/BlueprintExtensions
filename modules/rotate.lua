@@ -33,4 +33,3 @@ end
 
 script.on_event("BlueprintExtensions_rotate-clockwise", function(event) return Rotate.rotate(event.player_index) end)
 return Rotate
-    

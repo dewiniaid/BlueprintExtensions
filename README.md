@@ -43,6 +43,11 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.3.1 (2019-02-26)
+* Fix default keybinds for mirroring
+* Add blueprint nudging.  SHIFT + arrow-on-numpad will 'nudge' a blueprint 1 tile in the selected direction.  (Blueprints with rails will be nudged 2 tiles.)
+
+
 ### 0.3.0 (2019-02-26)
 * Update for Factorio 0.17
 * Overhaul buttons for blueprint flipping to a more sane implementation.

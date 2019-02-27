@@ -14,6 +14,16 @@ local Snap = {
         ["BlueprintExtensions_snap-sw"] = {1, 0},
         ["BlueprintExtensions_snap-se"] = {0, 0},
     },
+    NUDGE_EVENTS = {
+        ["BlueprintExtensions_nudge-n"] = {0, -1},
+        ["BlueprintExtensions_nudge-s"] = {0, 1},
+        ["BlueprintExtensions_nudge-w"] = {-1, 0},
+        ["BlueprintExtensions_nudge-e"] = {1, 0},
+        ["BlueprintExtensions_nudge-nw"] = {-1, -1},
+        ["BlueprintExtensions_nudge-ne"] = { 1, -1},
+        ["BlueprintExtensions_nudge-sw"] = {-1, 1},
+        ["BlueprintExtensions_nudge-se"] = { 1, 1},
+    },
     ALIGNMENT_OVERRIDES = {
         ['straight-rail'] = 2,
         ['curved-rail'] = 2,
@@ -41,8 +51,17 @@ function Snap.on_event(event)
         return nil
     end
 
-    local player_settings = player.mod_settings
 
+    if not Snap.EVENTS[event.input_name] then
+        if Snap.NUDGE_EVENTS[event.input_name] then
+            local xdir, ydir = table.unpack(Snap.NUDGE_EVENTS[event.input_name])
+            return Snap.nudge_blueprint(bp, xdir, ydir)
+        end
+        -- Should be unreachable
+        return
+    end
+
+    local player_settings = player.mod_settings
     local center = (player_settings["BlueprintExtensions_cardinal-center"].value and 0.5) or nil
     local xdir, ydir = table.unpack(Snap.EVENTS[event.input_name])
     if xdir == nil then
@@ -177,9 +196,25 @@ function Snap.align_blueprint(bp, xdir, ydir)
 end
 
 
+function Snap.nudge_blueprint(bp, xdir, ydir)
+    local align = 1
+
+    for _, entity in pairs(bp.get_blueprint_entities() or {}) do
+        align = max(align, Snap.ALIGNMENT_OVERRIDES[entity.name] or align)
+    end
+
+    xdir = xdir * align
+    ydir = ydir * align
+
+    return Snap.offset_blueprint(bp, xdir, ydir)
+end
+
+
 for k,_ in pairs(Snap.EVENTS) do
     script.on_event(k, Snap.on_event)
 end
-
+for k,_ in pairs(Snap.NUDGE_EVENTS) do
+    script.on_event(k, Snap.on_event)
+end
 
 return Snap
