@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.3.0
+Date: 26. 02. 2019
+  Changes:
+    - Update for Factorio 0.17
+    - Overhaul buttons for blueprint flipping to a more sane implementation.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.5
 Date: 18. 10. 2018
   Changes:

@@ -5,7 +5,6 @@ data:extend({
         name = "BlueprintExtensions_cloned-blueprint",
         icon = "__BlueprintExtensions__/graphics/icons/cloned-blueprint.png",
         icon_size = 32,
-        flags = { "goes-to-quickbar" },
         subgroup = "tool",
         order = "c[automated-construction]-a[blueprint]-no-picker",
         stack_size = 1,

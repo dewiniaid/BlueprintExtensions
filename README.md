@@ -43,6 +43,10 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.3.0 (2019-02-26)
+* Update for Factorio 0.17
+* Overhaul buttons for blueprint flipping to a more sane implementation.
+    
 ### 0.2.5 (2018-10-18)
 * If [GDIW](https://mods.factorio.com/mod/GDIW) is installed, mirror recipes when mirroring blueprints.
 

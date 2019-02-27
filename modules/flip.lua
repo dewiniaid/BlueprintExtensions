@@ -1,4 +1,6 @@
 local Util = require('util')
+require("mod-gui")
+
 
 local Flip = {
     enabled = true,
@@ -46,15 +48,41 @@ local Flip = {
 
 function Flip.setup_gui(player)
     local show = (Flip.enabled and player.mod_settings["BlueprintExtensions_show-buttons"].value)
-    local top = player.gui.top
+    local flow = mod_gui.get_button_flow(player)
 
-	if show and not top["BPEX_Flow"] then
-		local flow = top.add{type = "flow", name = "BPEX_Flow", direction = 'horizontal'}
-		flow.add{type = "button", name = "BPEX_Flip_H", style = "BPEX_Button_H"}
-		flow.add{type = "button", name = "BPEX_Flip_V", style = "BPEX_Button_V"}
-    elseif not show and top["BPEX_Flow"] then
-        top["BPEX_Flow"].destroy()
+    if show and not flow.BPEX_Flip_H then
+        local button
+        button = flow.add {
+            name = "BPEX_Flip_H",
+            type = "sprite-button",
+            style = mod_gui.button_style,
+            sprite = "BPEX_Flip_H",
+            tooltip = { "controls.BlueprintExtensions_flip-h" }
+        }
+        button.visible = true
+        print(serpent.block(button))
+        button = flow.add {
+            name = "BPEX_Flip_V",
+            type = "sprite-button",
+            style = mod_gui.button_style,
+            sprite = "BPEX_Flip_V",
+            tooltip = { "controls.BlueprintExtensions_flip-v" }
+        }
+        button.visible = true
+    elseif not show then
+        flow.BPEX_Flip_H.destroy()
+        flow.BPEX_Flip_V.destroy()
     end
+    --
+    --    local top = player.gui.top
+    --
+    --    if show and not top["BPEX_Flow"] then
+    --        local flow = top.add{type = "flow", name = "BPEX_Flow", direction = 'horizontal'}
+    --        flow.add{type = "button", name = "BPEX_Flip_H", style = "BPEX_Button_H"}
+    --        flow.add{type = "button", name = "BPEX_Flip_V", style = "BPEX_Button_V"}
+    --    elseif not show and top["BPEX_Flow"] then
+    --        top["BPEX_Flow"].destroy()
+    --    end
 end
 
 

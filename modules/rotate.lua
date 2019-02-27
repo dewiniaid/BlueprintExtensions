@@ -20,7 +20,6 @@ function Rotate.rotate(player_index)
     if not (bp and bp.is_blueprint_setup()) then
         return
     end
-    local mult = { x = -1, y = 1 }
 
     local ents
 
@@ -34,3 +33,4 @@ end
 
 script.on_event("BlueprintExtensions_rotate-clockwise", function(event) return Rotate.rotate(event.player_index) end)
 return Rotate
+    
