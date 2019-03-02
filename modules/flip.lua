@@ -70,8 +70,8 @@ function Flip.setup_gui(player)
         }
         button.visible = true
     elseif not show then
-        flow.BPEX_Flip_H.destroy()
-        flow.BPEX_Flip_V.destroy()
+        if flow.BPEX_Flip_H then flow.BPEX_Flip_H.destroy() end
+        if flow.BPEX_Flip_V then flow.BPEX_Flip_V.destroy() end
     end
     --
     --    local top = player.gui.top

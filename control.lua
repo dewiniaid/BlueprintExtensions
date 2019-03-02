@@ -23,3 +23,8 @@ script.on_event(defines.events.on_player_removed, function(event)
     Util.clear_all_items(event.player_index)
     global.playerdata[event.player_index] = nil
 end)
+
+script.on_event(defines.events.on_player_created, function(event)
+    Flip.setup_gui(game.players[event.player_index])
+end)
+

@@ -1,10 +1,18 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.3.2
+Date: 02. 03. 2019
+  Bugfixes:
+    - Fix blueprint mirroring buttons not appearing when enabled in a new save until the mod configuration changed.
+    - Fix crash involving blueprint mirroring buttons in a new save when they were disabled.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.3.1
 Date: 26. 02. 2019
   Changes:
-    - Fix default keybinds for mirroring
     - Add blueprint nudging.  SHIFT + arrow-on-numpad will 'nudge' a blueprint 1 tile in the selected direction.
       (Blueprints with rails will be nudged 2 tiles.)
+  Bugfixes:
+    - Fix default keybinds for mirroring
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.3.0

@@ -43,6 +43,9 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.3.2 (2019-03-02)
+* Fix issues (including a possible crash) involving setting up the blueprint mirroring buttons in a new save.
+
 ### 0.3.1 (2019-02-26)
 * Fix default keybinds for mirroring
 * Add blueprint nudging.  SHIFT + arrow-on-numpad will 'nudge' a blueprint 1 tile in the selected direction.  (Blueprints with rails will be nudged 2 tiles.)
