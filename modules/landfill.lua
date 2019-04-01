@@ -6,7 +6,7 @@ local actions = require('actions')
 
 
 local Landfill = {
-    ALIGNMENT_OVERRIDES = require("modules/snap").ALIGNMENT_OVERRIDES
+    ALIGNMENT_OVERRIDES = require("modules/snap").ALIGNMENT_OVERRIDES,
     prototypes_computed = false
 }
 
