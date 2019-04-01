@@ -46,6 +46,9 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.4.3 (2019-04-01)
+* Fix yet another crash on loading a save that had an old version of Blueprint Extensions (only on some systems)
+
 ### 0.4.2 (2019-04-01)
 * Fix another crash on loading a save that had an old version of Blueprint Extensions (only on some systems)
 

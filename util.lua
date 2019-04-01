@@ -4,7 +4,7 @@ local Util = {}
 
 -- Returns the item if it is a blueprint, the selected blueprint in the book if it is a blueprint book, or nil.
 function Util.get_blueprint(bp)
-    if not (bp.valid and bp.valid_for_read) then
+    if not (bp and bp.valid and bp.valid_for_read) then
         return nil
     end
     if bp.is_blueprint_book and bp.active_index then
