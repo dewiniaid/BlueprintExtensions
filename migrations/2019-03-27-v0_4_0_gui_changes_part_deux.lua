@@ -1,5 +1,5 @@
 require('mod-gui')
-local GUI = require('GUI')
+local GUI = require('gui')
 local mod_gui = require('mod-gui')
 
 
