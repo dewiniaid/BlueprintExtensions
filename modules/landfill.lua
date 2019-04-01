@@ -37,8 +37,14 @@ function Landfill.compute_prototype_overrides()
 
     log("Computing collision box overrides...")
 
+    local surface = game.surfaces["_BPEX_Temp_Surface"]
+    if surface then
+        log("Old temporary surface existed for some reason, destroying it.")
+        game.destroy_surface(surface)
+    end
+
     -- Temporary surface.
-    local surface = game.create_surface("_BPEX_Temp_Surface")
+    surface = game.create_surface("_BPEX_Temp_Surface")
     local x, y
 
     for name, proto in pairs(game.entity_prototypes) do
