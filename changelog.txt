@@ -1,4 +1,20 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.4.0
+Date: 01. 04. 2019
+  New features:
+    - Add support for landfilling every tile of a blueprint that needs one.
+
+  Changes:
+    - Removed code that disabled blueprint flipping and mirroring when a competing mod was installed.
+      Blueprint Extensions should have been out long enough by now to justify not needing two mods.  ;)
+    - Support the shortcut bar.  Add shortcuts for all operations (except nudge/snap), enabled when a blueprint is in
+      your hand.
+    - Add a button UI that appears while a blueprint is held to perform all blueprint operations.  The shortcut bar is
+      pretty limited, so this gives you an alternative.  Individual buttons can be turned off in mod settings; the
+      entire button bar is hidden if you turn off all buttons.
+    - Substantially overhauled internal event handling code.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.3.2
 Date: 02. 03. 2019
   Bugfixes:

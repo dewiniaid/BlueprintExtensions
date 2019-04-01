@@ -1,3 +1,5 @@
+--local util = require("__core__/lualib/util")
+
 -- Add keybindings
 data:extend({
     {
@@ -18,3 +20,7 @@ data:extend({
         show_in_library = false
     },
 })
+
+--local bp = util.table.deepcopy(data.raw.blueprint.blueprint)
+--bp.name = "BPEX_Test_Blueprint"
+--data:extend{bp}

@@ -1,5 +1,6 @@
 -- Capabilities related to updating blueprints.
 local Util = require("util")
+local actions = require("actions")
 
 local CLONED_BLUEPRINT = "BlueprintExtensions_cloned-blueprint"
 local VERSION_PATTERN = "(v[.]?)(%d)$"  -- Matches version number at end of blueprints.
@@ -8,12 +9,15 @@ local DEFAULT_VERSION = " v.2"
 local AWAITING_GUI = 1
 local AWAITING_BP = 2
 
-local Updater = {}
+local Updater = {
+    events = {}
+
+}
 
 
-function Updater.clone(event)
-    local player_index = event.player_index
-    local player = game.players[player_index]
+function Updater.clone(player, event, action)
+    --local player_index = event.player_index
+    --local player = game.players[player_index]
     if not player.valid then
         return nil
     end
@@ -31,7 +35,7 @@ function Updater.clone(event)
     if not player.clean_cursor() then
         return
     end
-    Util.get_pdata(player_index).updater = updater
+    Util.get_pdata(player.index).updater = updater
     player.cursor_stack.set_stack(CLONED_BLUEPRINT)
     if updater.label then
         player.cursor_stack.label = updater.label
@@ -124,17 +128,22 @@ function Updater.on_player_configured_blueprint(event)
     pdata.updater = nil  -- Nuke this.
     local player = game.players[event.player_index]
     if not player.clean_cursor() then
-        game.print("[Blueprint Extensions] Could not free up a slot for this blueprint")
+        player.print({"bpex.error_cannot_set_stack"})
     else
         player.cursor_stack.set_stack(Util.fetch_item(event.player_index, 'updater-blueprint'))
     end
 end
 
 
-script.on_event("BlueprintExtensions_clone-blueprint", Updater.clone)
-script.on_event({defines.events.on_player_selected_area, defines.events.on_player_alt_selected_area}, Updater.on_selected_area)
-script.on_event(defines.events.on_gui_opened, Updater.on_gui_opened)
-script.on_event(defines.events.on_player_configured_blueprint, Updater.on_player_configured_blueprint)
+actions['BlueprintExtensions_clone-blueprint'].handler = Updater.clone
+
+
+Updater.events = {
+    [defines.events.on_player_selected_area] = Updater.on_selected_area,
+    [defines.events.on_player_alt_selected_area] = Updater.on_selected_area,
+    [defines.events.on_player_configured_blueprint] = Updater.on_player_configured_blueprint,
+    [defines.events.on_gui_opened] = Updater.on_gui_opened,
+}
 
 
 return Updater

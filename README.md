@@ -2,26 +2,27 @@
 
 Blueprint Extensions adds a few useful utilities for blueprint placement and management:
 
-* Blueprint Updater: While holding a prepared blueprint, press `SHIFT + U` to create a Blueprint Updater.  Drag this
-across your screen like you would to make a blueprint and it will create a new blueprint using the same label and icons
-as the previous blueprint.  Additionally, if the previous blueprint ended with "v.###", the version number will be
-incremented (this behavior can be changed in settings).
+* **Blueprint Updater:** While holding a prepared blueprint, press `SHIFT + U` to create a Blueprint Updater.  Drag 
+this across your screen like you would to make a blueprint and it will create a new blueprint using the same label and icons as the previous blueprint.  Additionally, if the previous blueprint ended with "v.###", the version number will be incremented (this behavior can be changed in settings).
 
-* Blueprint Snap: While holding a prepared blueprint, use the numpad (by default) to snap the blueprint to a specific 
-  corner or edge.  This is useful if you can't fit a large blueprint entirely on screen and need to make it align 
-  against some existing structure -- i.e. for tiling solar layouts.
+* **Blueprint Snap**: While holding a prepared blueprint, use the numpad (by default) to snap the blueprint to a 
+specific corner or edge.  This is useful if you can't fit a large blueprint entirely on screen and need to make it 
+align against some existing structure -- i.e. for tiling solar layouts.
   
-* Blueprint Mirror: Mirror a blueprint horizontally or vertically.  This correctly fixes splitter orientation, 
-  and if [GDIW](https://mods.factorio.com/mod/GDIW) is installed it will also switch fluid recipes to their mirrored
-  versions.
+* **Blueprint Mirror:** Mirror a blueprint horizontally or vertically.  This correctly fixes splitter orientation,
+and if [GDIW](https://mods.factorio.com/mod/GDIW) is installed it will also switch fluid recipes to their mirrored
+versions.
 
-* Wireswap: Swap circuit wire colors within a blueprint.
+* **Wireswap:** Swap circuit wire colors within a blueprint.
 
-* Rotate: Rotates a blueprint.  This modifies the actual blueprint rather than its in-game placement direction.
-  This is useful if you have a book of related blueprints and want them all facing the same direction.
+* **Rotate:** Rotates a blueprint.  This modifies the actual blueprint rather than its in-game placement direction.
+This is useful if you have a book of related blueprints and want them all facing the same direction.
 
-**Note: All of these features (except the Blueprint Updater) will modify the blueprint being affected.**
-  Copies of blueprints that are in your blueprint library (or the game's blueprint library) are unaffected.
+* **Landfill:** Adds landfill underneath any entity in the blueprint that cannot be placed on water.  This can either
+  modify the current blueprint or create a (possibly temporary) copy of it, depending on your mod settings.
+
+**Note: Most of these features (except the Blueprint Updater) will modify the blueprint being affected.**
+Copies of blueprints that are in your blueprint library (or the game's blueprint library) are unaffected.
  
 ## Known Issues
 * Blueprint Updaters are tied to the last blueprint you had selected when you created one -- not the blueprint you had
@@ -33,6 +34,8 @@ updater and still have it function as a selection tool.
 to the north edge of a blueprint will snap to the north edge of the blueprint in its native rotation -- not the 
 current on-screen one.  The functionality is still fully useable, it just may require a bit of "Which key do I
 actually need to hit" confusion.
+
+* Landfill is new and not thoroughly tested.  
   
 ## Unknown Issues
 
@@ -42,6 +45,15 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+
+### 0.4.0 (2019-04-01)
+* New feature: Add landfill to every tile of a blueprint that needs it.  
+* Removed code that disabled blueprint flipping and mirroring when a competing mod was installed.
+* Support Factorio 0.17's new shortcut bar.  Adds shortcuts for all operations (except nudge/snap).  Shortcuts are enabled whenever a configured blueprint is in your hand.
+* Add our own shortcut bar that appears while a blueprint is held to perform all operations (except nudge/snap).  Factorio's shortcut bar is pretty limited in size, so this gives you an alternative.  Individual buttons can be turned off in mod settings; the entire button bar is hidden if you turn off all buttons.
+* Substantially overhauled internal event handling code.
+* Lots of code cleanup.
+
 
 ### 0.3.2 (2019-03-02)
 * Fix issues (including a possible crash) involving setting up the blueprint mirroring buttons in a new save.

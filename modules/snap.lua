@@ -1,28 +1,29 @@
 local Util = require("util")
+local actions = require("actions")
 local min, max = math.min, math.max
 
 
 local Snap = {
-    EVENTS = {
-        ["BlueprintExtensions_snap-n"] = {nil, 1},
-        ["BlueprintExtensions_snap-s"] = {nil, 0},
-        ["BlueprintExtensions_snap-w"] = {1, nil},
-        ["BlueprintExtensions_snap-e"] = {0, nil},
-        ["BlueprintExtensions_snap-center"] = {0.5, 0.5},
-        ["BlueprintExtensions_snap-nw"] = {1, 1},
-        ["BlueprintExtensions_snap-ne"] = {0, 1},
-        ["BlueprintExtensions_snap-sw"] = {1, 0},
-        ["BlueprintExtensions_snap-se"] = {0, 0},
+    SNAPS = {
+        ["n"] = { nil, 1 },
+        ["s"] = { nil, 0 },
+        ["w"] = { 1, nil },
+        ["e"] = { 0, nil },
+        ["center"] = { 0.5, 0.5 },
+        ["nw"] = { 1, 1 },
+        ["ne"] = { 0, 1 },
+        ["sw"] = { 1, 0 },
+        ["se"] = { 0, 0 },
     },
-    NUDGE_EVENTS = {
-        ["BlueprintExtensions_nudge-n"] = {0, -1},
-        ["BlueprintExtensions_nudge-s"] = {0, 1},
-        ["BlueprintExtensions_nudge-w"] = {-1, 0},
-        ["BlueprintExtensions_nudge-e"] = {1, 0},
-        ["BlueprintExtensions_nudge-nw"] = {-1, -1},
-        ["BlueprintExtensions_nudge-ne"] = { 1, -1},
-        ["BlueprintExtensions_nudge-sw"] = {-1, 1},
-        ["BlueprintExtensions_nudge-se"] = { 1, 1},
+    NUDGES = {
+        ["n"] = { 0, -1 },
+        ["s"] = { 0, 1 },
+        ["w"] = { -1, 0 },
+        ["e"] = { 1, 0 },
+        ["nw"] = { -1, -1 },
+        ["ne"] = { 1, -1 },
+        ["sw"] = { -1, 1 },
+        ["se"] = { 1, 1 },
     },
     ALIGNMENT_OVERRIDES = {
         ['straight-rail'] = 2,
@@ -30,40 +31,37 @@ local Snap = {
         ['train-stop'] = 2,
     },
     ROTATIONS = {
-        [defines.direction.north]     = { 1,  2,  3,  4},
-        [defines.direction.northeast] = { 3,  2,  1,  4},
-        [defines.direction.east]      = { 4,  1,  2,  3},
-        [defines.direction.southeast] = { 2,  1,  4,  3},
-        [defines.direction.south]     = { 3,  4,  1,  2},
-        [defines.direction.southwest] = { 1,  4,  3,  2},
-        [defines.direction.west]      = { 2,  3,  4,  1},
-        [defines.direction.northwest] = { 4,  3,  2,  1},
-    }
+        [defines.direction.north] = { 1, 2, 3, 4 },
+        [defines.direction.northeast] = { 3, 2, 1, 4 },
+        [defines.direction.east] = { 4, 1, 2, 3 },
+        [defines.direction.southeast] = { 2, 1, 4, 3 },
+        [defines.direction.south] = { 3, 4, 1, 2 },
+        [defines.direction.southwest] = { 1, 4, 3, 2 },
+        [defines.direction.west] = { 2, 3, 4, 1 },
+        [defines.direction.northwest] = { 4, 3, 2, 1 },
+    },
 }
 
-function Snap.on_event(event)
-    local player = game.players[event.player_index]
-    if not (player and player.valid) then
-        return nil
-    end
+function Snap.on_nudge_action(player, event, action)
     local bp = Util.get_blueprint(player.cursor_stack)
     if not bp then
         return nil
     end
 
+    local xdir, ydir = table.unpack(Snap.NUDGES[action.data])
+    return Snap.nudge_blueprint(bp, xdir, ydir)
+end
 
-    if not Snap.EVENTS[event.input_name] then
-        if Snap.NUDGE_EVENTS[event.input_name] then
-            local xdir, ydir = table.unpack(Snap.NUDGE_EVENTS[event.input_name])
-            return Snap.nudge_blueprint(bp, xdir, ydir)
-        end
-        -- Should be unreachable
-        return
+
+function Snap.on_snap_action(player, event, action)
+    local bp = Util.get_blueprint(player.cursor_stack)
+    if not bp then
+        return nil
     end
 
     local player_settings = player.mod_settings
     local center = (player_settings["BlueprintExtensions_cardinal-center"].value and 0.5) or nil
-    local xdir, ydir = table.unpack(Snap.EVENTS[event.input_name])
+    local xdir, ydir = table.unpack(Snap.SNAPS[action.data])
     if xdir == nil then
         xdir = center
     elseif player_settings["BlueprintExtensions_horizontal-invert"].value then
@@ -210,11 +208,12 @@ function Snap.nudge_blueprint(bp, xdir, ydir)
 end
 
 
-for k,_ in pairs(Snap.EVENTS) do
-    script.on_event(k, Snap.on_event)
+for k,_ in pairs(Snap.SNAPS) do
+    actions["BlueprintExtensions_snap-" .. k].handler = Snap.on_snap_action
 end
-for k,_ in pairs(Snap.NUDGE_EVENTS) do
-    script.on_event(k, Snap.on_event)
+for k,_ in pairs(Snap.NUDGES) do
+    actions["BlueprintExtensions_nudge-" .. k].handler = Snap.on_nudge_action
 end
+
 
 return Snap

@@ -1,4 +1,6 @@
 local Util = require('util')
+local actions = require('actions')
+
 
 local Rotate = {}
 
@@ -9,20 +11,19 @@ local function transform(ents)
     end
     return ents
 end
+--
+--local function pseudomatrixmultiply(position, mult)
+--	position.x, position.y = position.y * mult.x, position.x * mult.y
+--end
 
-local function pseudomatrixmultiply(position, mult)
-	position.x, position.y = position.y * mult.x, position.x * mult.y
-end
 
-function Rotate.rotate(player_index)
-    local player = game.players[player_index]
+function Rotate.rotate_action(player, event, action)
     local bp = Util.get_blueprint(player.cursor_stack)
     if not (bp and bp.is_blueprint_setup()) then
         return
     end
 
     local ents
-
     ents = bp.get_blueprint_entities()
     if ents then bp.set_blueprint_entities(transform(ents)) end
 
@@ -31,5 +32,7 @@ function Rotate.rotate(player_index)
 end
 
 
-script.on_event("BlueprintExtensions_rotate-clockwise", function(event) return Rotate.rotate(event.player_index) end)
+actions['BlueprintExtensions_rotate-clockwise'].handler = Rotate.rotate_action
+
+
 return Rotate

@@ -1,8 +1,9 @@
 local Util = require('util')
+local actions = require('actions')
 
 local Wireswap = {}
 
-function Wireswap.swap(player)
+function Wireswap.swap(player, event, action)
     local bp = Util.get_blueprint(player.cursor_stack)
     if not (bp and bp.is_blueprint_setup()) then
         return
@@ -25,6 +26,9 @@ function Wireswap.swap(player)
     end
 end
 
-script.on_event("BlueprintExtensions_wireswap", function(event) return Wireswap.swap(game.players[event.player_index]) end)
+actions["BlueprintExtensions_wireswap"].handler = Wireswap.swap
+
+--script.on_event("BlueprintExtensions_wireswap", function(event) return Wireswap.swap(game.players[event.player_index]) end)
+
 
 return Wireswap
