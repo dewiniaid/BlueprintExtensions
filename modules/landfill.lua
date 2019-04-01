@@ -7,6 +7,7 @@ local actions = require('actions')
 
 local Landfill = {
     ALIGNMENT_OVERRIDES = require("modules/snap").ALIGNMENT_OVERRIDES
+    prototypes_computed = false
 }
 
 
@@ -15,6 +16,10 @@ local get_overlapping_tiles = Geom2D.get_overlapping_tiles
 
 
 function Landfill.compute_prototype_overrides()
+    if Landfill.prototypes_computed then
+        return
+    end
+    Landfill.prototypes_computed = true
     -- Some entities require special arguments when created.  We skip those; they're unlikely to come up in blueprints
     -- anyways
     local type_blacklist = {
@@ -37,14 +42,8 @@ function Landfill.compute_prototype_overrides()
 
     log("Computing collision box overrides...")
 
-    local surface = game.surfaces["_BPEX_Temp_Surface"]
-    if surface then
-        log("Old temporary surface existed for some reason, destroying it.")
-        game.delete_surface(surface)
-    end
-
     -- Temporary surface.
-    surface = game.create_surface("_BPEX_Temp_Surface")
+    local surface = game.create_surface("_BPEX_Temp_Surface")
     local x, y
 
     for name, proto in pairs(game.entity_prototypes) do
