@@ -46,6 +46,9 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.4.1 (2019-04-01)
+* Fix a crash when loading a save that had an old version of Blueprint Extensions installed.
+
 ### 0.4.0 (2019-04-01)
 * New feature: Add landfill to every tile of a blueprint that needs it.  
 * Removed code that disabled blueprint flipping and mirroring when a competing mod was installed.
@@ -53,7 +56,6 @@ discussion page, and messages posted there will likely be ignored.**
 * Add our own shortcut bar that appears while a blueprint is held to perform all operations (except nudge/snap).  Factorio's shortcut bar is pretty limited in size, so this gives you an alternative.  Individual buttons can be turned off in mod settings; the entire button bar is hidden if you turn off all buttons.
 * Substantially overhauled internal event handling code.
 * Lots of code cleanup.
-
 
 ### 0.3.2 (2019-03-02)
 * Fix issues (including a possible crash) involving setting up the blueprint mirroring buttons in a new save.

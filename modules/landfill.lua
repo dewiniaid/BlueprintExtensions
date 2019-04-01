@@ -15,7 +15,6 @@ local get_overlapping_tiles = Geom2D.get_overlapping_tiles
 
 
 function Landfill.compute_prototype_overrides()
-    --game.print("Landfill.compute_prototype_overrides")
     -- Some entities require special arguments when created.  We skip those; they're unlikely to come up in blueprints
     -- anyways
     local type_blacklist = {
@@ -71,7 +70,7 @@ function Landfill.compute_prototype_overrides()
                     end
                     t[d] = data
 
-                    log("... [" .. name .. "][" .. d .. "] = " .. serpent.line(t[d]))
+                    --log("... [" .. name .. "][" .. d .. "] = " .. serpent.line(t[d]))
                 end
                 e.destroy()
             end
@@ -89,10 +88,12 @@ end
 
 function Landfill.on_load()
     Landfill.prototype_overrides = global.prototype_overrides
-    for ent, dirs in pairs(Landfill.prototype_overrides) do
-        for dir, rects in pairs(dirs) do
-            for _, rect in pairs(rects) do
-                setmetatable(rect, Rect.__mt)
+    if Landfill.prototype_overrides then
+        for ent, dirs in pairs(Landfill.prototype_overrides) do
+            for dir, rects in pairs(dirs) do
+                for _, rect in pairs(rects) do
+                    setmetatable(rect, Rect.__mt)
+                end
             end
         end
     end
@@ -162,7 +163,7 @@ function Landfill.landfill_action(player, event, action)
         y = (entity.position.y or 0) + offset
         dir = entity.direction or 0
 
-        override = (overrides[name] and overrides[name][dir]) or nil
+        override = (overrides and overrides[name] and overrides[name][dir]) or nil
 
         if override then
             for _, source in pairs(override) do
