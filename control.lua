@@ -90,10 +90,10 @@ end)
 script.on_load(function() call_module_methods('on_load') end)
 
 
-script.on_configuration_changed(function()
+script.on_configuration_changed(function(data)
     -- FIXME: Update all gui and shortcut bars.
     init_globals()
-    call_module_methods('on_configuration_changed')
+    call_module_methods('on_configuration_changed', data)
 end)
 
 

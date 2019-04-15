@@ -1,23 +1,30 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.4.4
+Date: 15. 04. 2019
+  Bugfixes:
+    - Fix mod changelog being broken since 0.4.0
+    - Fix crash on first time being added to an existing save
+
+---------------------------------------------------------------------------------------------------
 Version: 0.4.3
----------------------------------------------------------------------------------------------------
 Date: 01. 04. 2019
   Bugfixes:
     - Fix another crash on loading a save that had an old version of Blueprint Extensions (only on some systems)
 
+---------------------------------------------------------------------------------------------------
 Version: 0.4.2
----------------------------------------------------------------------------------------------------
 Date: 01. 04. 2019
   Bugfixes:
     - Fix another crash on loading a save that had an old version of Blueprint Extensions (only on some systems)
 
-Version: 0.4.1
 ---------------------------------------------------------------------------------------------------
+Version: 0.4.1
 Date: 01. 04. 2019
   Bugfixes:
     - Fix crash on loading a save that had an old version of Blueprint Extensions.
 
-Version: 0.4.0
 ---------------------------------------------------------------------------------------------------
+Version: 0.4.0
 Date: 01. 04. 2019
   New features:
     - Add support for landfilling every tile of a blueprint that needs one.

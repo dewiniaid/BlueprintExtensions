@@ -46,6 +46,10 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.4.4 (2019-04-15)
+* Fix crash on adding Blueprint Extensions to an existing save.
+* Fix broken changelog formatting.
+
 ### 0.4.3 (2019-04-01)
 * Fix yet another crash on loading a save that had an old version of Blueprint Extensions (only on some systems)
 
