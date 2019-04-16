@@ -15,11 +15,18 @@ local adjust_box = Geom2D.adjust_box
 local get_overlapping_tiles = Geom2D.get_overlapping_tiles
 
 
+local function requires_landfill(prototype)
+    local m = prototype.collision_mask
+    return (m and (m['water-tile'] or m['item-layer'])) and true or false
+end
+
+
 function Landfill.compute_prototype_overrides()
-    if Landfill.prototypes_computed then
-        return
-    end
-    Landfill.prototypes_computed = true
+    --if Landfill.prototypes_computed then
+    --    return
+    --end
+    --Landfill.prototypes_computed = true
+
     -- Some entities require special arguments when created.  We skip those; they're unlikely to come up in blueprints
     -- anyways
     local type_blacklist = {
@@ -47,7 +54,11 @@ function Landfill.compute_prototype_overrides()
     local x, y
 
     for name, proto in pairs(game.entity_prototypes) do
-        if (not type_blacklist[proto.type]) and proto.secondary_collision_box then
+        if (
+                (not type_blacklist[proto.type])
+                and proto.flags and proto.flags["building-direction-8-way"]
+                and requires_landfill(proto)
+        ) then
             t = {}
             results[name] = t
             args.name = name
@@ -172,7 +183,8 @@ function Landfill.landfill_action(player, event, action)
         name = entity.name
         proto = prototypes[entity.name]
         if not proto then goto next end
-        if not proto.collision_mask['water-tile'] then goto next end
+        --if not proto.collision_mask['water-tile'] then goto next end
+        if not requires_landfill(proto) then goto next end
 
         x = (entity.position.x or 0) + offset
         y = (entity.position.y or 0) + offset
