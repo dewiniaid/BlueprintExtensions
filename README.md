@@ -46,6 +46,10 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.4.5 (2019-04-15)
+* Fix yet another possible crash when adding Blueprint Extensions to an existing save.
+* Fix issue with diagonal straight rails and rail signals not being landfilled correctly.
+
 ### 0.4.4 (2019-04-15)
 * Fix crash on adding Blueprint Extensions to an existing save.
 * Fix broken changelog formatting.

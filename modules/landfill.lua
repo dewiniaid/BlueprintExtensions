@@ -119,7 +119,8 @@ Landfill.on_init = Landfill.compute_prototype_overrides
 
 
 function Landfill.on_configuration_changed(data)
-    if not data.mod_changes.BlueprintExtensions.old_version then
+    if data and data.mod_changes and data.mod_changes.BlueprintExtensions and not data.mod_changes.BlueprintExtensions.old_version then
+    --if not data.mod_changes.BlueprintExtensions.old_version then
         log("We're being added to a new save, assuming collision box overrides already computed in on_init")
     else
         Landfill.compute_prototype_overrides()
