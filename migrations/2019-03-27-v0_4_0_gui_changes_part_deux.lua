@@ -1,7 +1,10 @@
 require('mod-gui')
-local GUI = require('gui')
+local GUI = require('__BlueprintExtensions__/gui')
 local mod_gui = require('mod-gui')
 
+if not global.playerdata then
+    global.playerdata = {}
+end
 
 for index, player in pairs(game.players) do
     local flow = mod_gui.get_button_flow(player)

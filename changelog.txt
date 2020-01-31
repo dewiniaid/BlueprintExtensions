@@ -4,6 +4,7 @@ Date: 01. 31. 2020
   Bugfixes:
     - Fix possible assorted crashes with auto-landfill when adding Blueprint Extensions to an existing save, for real this time.
     - Fix accidental very spammy debug logging when auto-landfilling a blueprint.
+    - Fix crash when starting an in-game tutorial.
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.5

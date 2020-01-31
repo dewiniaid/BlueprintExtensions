@@ -49,6 +49,7 @@ discussion page, and messages posted there will likely be ignored.**
 ### 0.4.6 (2020-01-31)
 * Fix possible assorted crashes with auto-landfill when adding Blueprint Extensions to an existing save, for real this time.
 * Fix accidental very spammy debug logging when auto-landfilling a blueprint.
+* Fix crash when starting an in-game tutorial.
 
 ### 0.4.5 (2019-04-15)
 * Fix yet another possible crash when adding Blueprint Extensions to an existing save.
