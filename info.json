@@ -9,4 +9,3 @@
     "dependencies": ["base >= 0.17", "? GDIW"],
     "description": "Adds tools for updating and placing blueprints."
 }
-N
