@@ -32,10 +32,10 @@ updater and still have it function as a selection tool.
 * Blueprint Snap is unable to factor in the rotation setting due to
 [modding API limitations](https://forums.factorio.com/viewtopic.php?f=28&t=47087&start=80#p324060).  Thus, snapping
 to the north edge of a blueprint will snap to the north edge of the blueprint in its native rotation -- not the 
-current on-screen one.  The functionality is still fully useable, it just may require a bit of "Which key do I
+current on-screen one.  The functionality is still fully usable, it just may require a bit of "Which key do I
 actually need to hit" confusion.
 
-* Landfill is new and not thoroughly tested.  
+* Landfill is new and not thoroughly tested, as evidenced by releases 0.4.0 thru 0.4.5
   
 ## Unknown Issues
 
@@ -45,6 +45,10 @@ discussion page, and messages posted there will likely be ignored.**
 
  
 ## Changelog
+
+### 0.4.6 (2020-01-31)
+* Fix possible assorted crashes with auto-landfill when adding Blueprint Extensions to an existing save, for real this time.
+* Fix accidental very spammy debug logging when auto-landfilling a blueprint.
 
 ### 0.4.5 (2019-04-15)
 * Fix yet another possible crash when adding Blueprint Extensions to an existing save.

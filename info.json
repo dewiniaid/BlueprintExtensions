@@ -1,6 +1,6 @@
 {
     "name": "BlueprintExtensions",
-    "version": "0.4.5",
+    "version": "0.4.6",
     "title": "Blueprint Extensions",
     "author": "Dewin",
     "contact": "https://github.com/dewiniaid/BlueprintExtensions",
@@ -9,3 +9,4 @@
     "dependencies": ["base >= 0.17", "? GDIW"],
     "description": "Adds tools for updating and placing blueprints."
 }
+N

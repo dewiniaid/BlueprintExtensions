@@ -102,6 +102,87 @@ function Landfill.compute_prototype_overrides()
 end
 
 
+function Landfill.get_prototype_overrides()
+    if global.prototype_overrides then
+        return global.prototype_overrides
+    end
+
+    -- Some entities require special arguments when created.  We skip those; they're unlikely to come up in blueprints
+    -- anyways
+    local type_blacklist = {
+        ['item-entity'] = true,
+        ['item-request-proxy'] = true,
+        ['fire'] = true,
+        ['entity-ghost'] = true,
+        ['particle'] = true,
+        ['projectile'] = true,
+        ['resource'] = true,
+    }
+
+    -- Initial args for creating and destroying entities.
+    local args = {position={0, 0}, raise_built=false, create_build_effect_smoke=false}
+    local destroy_args = {raise_destroy=false}
+
+    -- Results
+    local results = {}
+    local t, e
+
+    log("Computing collision box overrides...")
+
+    -- Temporary surface.
+    local surface = game.create_surface("_BPEX_Temp_Surface")
+    local x, y
+
+    for name, proto in pairs(game.entity_prototypes) do
+        if (
+                (not type_blacklist[proto.type])
+                        and proto.flags and proto.flags["building-direction-8-way"]
+                        and requires_landfill(proto)
+        ) then
+            t = {}
+            results[name] = t
+            args.name = name
+
+            for d = 0, 7 do
+                args.direction = d
+                e = surface.create_entity(args)
+                if not e then
+                    game.print("[BlueprintExtensions] Failed to create temporary entity: " .. serpent.line(args))
+                    log("[BlueprintExtensions] Failed to create temporary entity: " .. serpent.line(args))
+                else
+                    local data = {}
+                    x = e.position.x
+                    y = e.position.y
+
+                    if e.bounding_box then data[#data + 1] = e.bounding_box end
+                    if e.secondary_bounding_box then data[#data + 1] = e.secondary_bounding_box end
+
+                    for ix, box in pairs(data) do
+                        box.left_top.x = box.left_top.x - x
+                        box.left_top.y = box.left_top.y - y
+                        box.right_bottom.x = box.right_bottom.x - x
+                        box.right_bottom.y = box.right_bottom.y - y
+                        data[ix] = Rect.from_box(box)
+                    end
+                    t[d] = data
+
+                    --log("... [" .. name .. "][" .. d .. "] = " .. serpent.line(t[d]))
+                end
+                e.destroy()
+            end
+        end
+    end
+
+    game.delete_surface(surface)
+
+    log("...done.")
+
+    global.prototype_overrides = results
+    Landfill.prototype_overrides = results
+    return results
+end
+
+
 function Landfill.on_load()
     Landfill.prototype_overrides = global.prototype_overrides
     if Landfill.prototype_overrides then
@@ -115,20 +196,25 @@ function Landfill.on_load()
     end
 end
 
-Landfill.on_init = Landfill.compute_prototype_overrides
-
-
-function Landfill.on_configuration_changed(data)
-    if data and data.mod_changes and data.mod_changes.BlueprintExtensions and not data.mod_changes.BlueprintExtensions.old_version then
-    --if not data.mod_changes.BlueprintExtensions.old_version then
-        log("We're being added to a new save, assuming collision box overrides already computed in on_init")
-    else
-        Landfill.compute_prototype_overrides()
-    end
+function Landfill.destroy_prototype_overrides()
+    log("Destroying previous cached prototype information")
+    global.prototype_overrides = nil
+    Landfill.prototype_overrides = nil
 end
 
---Landfill.on_configuration_changed = Landfill.compute_prototype_overrides
+Landfill.on_init = Landfill.destroy_prototype_overrides
+Landfill.on_configuration_changed = Landfill.destroy_prototype_overrides
 
+--function Landfill.on_configuration_changed(data)
+--    if data and data.mod_changes and data.mod_changes.BlueprintExtensions and not data.mod_changes.BlueprintExtensions.old_version then
+--    --if not data.mod_changes.BlueprintExtensions.old_version then
+--        log("We're being added to a new save, assuming collision box overrides already computed in on_init")
+--    else
+--        Landfill.compute_prototype_overrides()
+--    end
+--end
+
+--Landfill.on_configuration_changed = Landfill.compute_prototype_overrides
 
 function Landfill.landfill_action(player, event, action)
     local bp = Util.get_blueprint(player.cursor_stack)
@@ -175,7 +261,7 @@ function Landfill.landfill_action(player, event, action)
 
     -- Loop through entities
     local name
-    overrides = Landfill.prototype_overrides
+    overrides = Landfill.get_prototype_overrides()
     local override
     local x, y, dir
     local rect

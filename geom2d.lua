@@ -39,7 +39,7 @@ do
 
 
     function Rect:clone(into)
-        log(serpent.line(self))
+        --log(serpent.line(self))
         if not into then
             into = {}
         end
