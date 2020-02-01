@@ -46,6 +46,9 @@ discussion page, and messages posted there will likely be ignored.**
  
 ## Changelog
 
+### 0.5.0 (2020-01-31)
+  * **Update for Factorio 0.18**
+
 ### 0.4.6 (2020-01-31)
 * Fix possible assorted crashes with auto-landfill when adding Blueprint Extensions to an existing save, for real this time.
 * Fix accidental very spammy debug logging when auto-landfilling a blueprint.
@@ -85,7 +88,7 @@ discussion page, and messages posted there will likely be ignored.**
 
 
 ### 0.3.0 (2019-02-26)
-* Update for Factorio 0.17
+* **Update for Factorio 0.17**
 * Overhaul buttons for blueprint flipping to a more sane implementation.
     
 ### 0.2.5 (2018-10-18)
